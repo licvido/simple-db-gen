@@ -1,6 +1,6 @@
-# Package
+# Simple DB Gen
 
-Package description.
+Simple database class generator.
 
 
 
@@ -8,7 +8,8 @@ Package description.
 
 Package requires PHP 5.6 or higher.
 
-- [another package](https://github.com/licvido/package)
+- [nette/database](https://github.com/nette/database)
+- [nette/php-generator](https://github.com/nette/php-generator)
 
 
 
@@ -17,7 +18,7 @@ Package requires PHP 5.6 or higher.
 The best way to install Package is using  [Composer](http://getcomposer.org/):
 
 ```sh
-$ composer require licvido/package
+$ composer require licvido/simple-db-gen
 ```
 
 
