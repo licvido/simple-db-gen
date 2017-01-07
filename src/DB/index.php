@@ -40,12 +40,16 @@ class Generator
 		$this->db = $db;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function generate()
 	{
 		$tables = $this->getTables();
 
 		$class = $this->createClass();
 		$this->addConstructMethod($class);
+		$this->addQueryMethod($class);
 		$this->addTransactionMethods($class);
 
 		foreach ($tables as $table) {
@@ -75,6 +79,20 @@ class Generator
 
 		$param = $method->addParameter('db');
 		$param->setTypeHint('Nette\\Database\\Context');
+	}
+
+	/**
+	 * @param Nette\PhpGenerator\ClassType $class
+	 * @return void
+	 */
+	private function addQueryMethod(Nette\PhpGenerator\ClassType $class)
+	{
+		// public function query($sql, ...$params) { ... }
+		$method = $class->addMethod('query');
+		$method->addComment('@param string');
+		$method->addComment('@return Nette\Database\ResultSet');
+		$method->addBody('$this->db->query($sql, ...$params);');
+		$method->addParameter('sql, ...$params');
 	}
 
 	/**
