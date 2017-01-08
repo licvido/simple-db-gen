@@ -129,24 +129,24 @@ class Generator
 		$getInsertId = $class->addMethod('getInsertId');
 		$getInsertId->addComment('@param string|NULL $name');
 		$getInsertId->addComment('@return string');
-		$getInsertId->addBody('$this->db->getInsertId($name);');
+		$getInsertId->addBody('return $this->db->getInsertId($name);');
 		$param = $getInsertId->addParameter('name');
 		$param->setOptional(TRUE);
 
 		// public function getConnection() { ... }
 		$getConnection = $class->addMethod('getConnection');
 		$getConnection->addComment('@return Nette\\Database\\Connection');
-		$getConnection->addBody('$this->db->getConnection();');
+		$getConnection->addBody('return $this->db->getConnection();');
 
 		// public function getStructure() { ... }
 		$getStructure = $class->addMethod('getStructure');
 		$getStructure->addComment('@return Nette\\Database\\IStructure');
-		$getStructure->addBody('$this->db->getStructure();');
+		$getStructure->addBody('return $this->db->getStructure();');
 
 		// public function getStructure() { ... }
 		$getConventions = $class->addMethod('getConventions');
 		$getConventions->addComment('@return Nette\\Database\\IConventions');
-		$getConventions->addBody('$this->db->getConventions();');
+		$getConventions->addBody('return $this->db->getConventions();');
 	}
 
 	/**
