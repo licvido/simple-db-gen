@@ -51,6 +51,7 @@ class Generator
 		$this->addConstructMethod($class);
 		$this->addQueryMethod($class);
 		$this->addTransactionMethods($class);
+		$this->addGetMethods($class);
 
 		foreach ($tables as $table) {
 			$method = $class->addMethod($this->toMethodName($table));
@@ -64,6 +65,7 @@ class Generator
 		echo "</pre>";
 		die;
 	}
+
 
 
 	/**
@@ -118,13 +120,43 @@ class Generator
 	}
 
 	/**
+	 * @param Nette\PhpGenerator\ClassType $class
+	 * @return void
+	 */
+	private function addGetMethods(Nette\PhpGenerator\ClassType $class)
+	{
+		// public function getInsertId() { ... }
+		$getInsertId = $class->addMethod('getInsertId');
+		$getInsertId->addComment('@param string|NULL $name');
+		$getInsertId->addComment('@return string');
+		$getInsertId->addBody('$this->db->getInsertId($name);');
+		$param = $getInsertId->addParameter('name');
+		$param->setOptional(TRUE);
+
+		// public function getConnection() { ... }
+		$getConnection = $class->addMethod('getConnection');
+		$getConnection->addComment('@return Nette\\Database\\Connection');
+		$getConnection->addBody('$this->db->getConnection();');
+
+		// public function getStructure() { ... }
+		$getStructure = $class->addMethod('getStructure');
+		$getStructure->addComment('@return Nette\\Database\\IStructure');
+		$getStructure->addBody('$this->db->getStructure();');
+
+		// public function getStructure() { ... }
+		$getConventions = $class->addMethod('getConventions');
+		$getConventions->addComment('@return Nette\\Database\\IConventions');
+		$getConventions->addBody('$this->db->getConventions();');
+	}
+
+	/**
 	 * @return Nette\PhpGenerator\ClassType
 	 */
 	private function createClass()
 	{
 		// class DB\Generator { ... }
 		$this->file = new Nette\PhpGenerator\PhpFile();
-		$this->file->addComment('@generated '.date('Y-m-d H:i:s'));
+		$this->file->addComment('@generated ' . date('Y-m-d H:i:s'));
 
 		$namespace = $this->file->addNamespace('DB');
 		$namespace->addUse('Nette');
